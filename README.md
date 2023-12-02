@@ -7,7 +7,7 @@ See the pdf document called "cs5200 project 2 doc"
 all data in the database are fake and were generated using https://www.mockaroo.com/schemas/new
 
 ## recreate db through dump file
-Folder "cs5200_proj2" contains the db dump file. To regenerate the db, please follow the instruction:
+Folder "dump_db" contains the db dump file. To regenerate the db, please follow the instruction:
 To regenerate a MongoDB database using the dump files in the "cs5200_proj2" folder, follow these steps:
 
 1. **Navigate to the MongoDB bin Directory:**
