@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 // Connection URL
 const url = 'mongodb://localhost:27017';
@@ -28,19 +28,20 @@ async function readAllProducts() {
 
 async function readProduct(id) {
     const database = await connectToDatabase();
-    const result = await database.collection('Product').findOne({ _id: id });
+    const result = await database.collection('Product').findOne({ _id: new ObjectId(id) });
     return result;
 }
 
 async function updateProduct(id, product) {
     const database = await connectToDatabase();
-    const result = await database.collection('Product').replaceOne({ _id: id }, product);
+    const result = await database.collection('Product').replaceOne({ _id: new ObjectId(id) }, product);
     return result;
 }
 
 async function deleteProduct(id) {
+    console.log("[DB] Deleting product with id = ", id);
     const database = await connectToDatabase();
-    const result = await database.collection('Product').deleteOne({ _id: id });
+    const result = await database.collection('Product').deleteOne({ _id: new ObjectId(id)});
     return result;
 }
 

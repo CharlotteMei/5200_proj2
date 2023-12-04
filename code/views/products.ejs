@@ -3,7 +3,8 @@
 <!-- show all products -->
 <head>
   <title>SkinCare Rack App</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+  <%- include('./partials/css.ejs') %>
 </head>
 
 <body>
@@ -50,9 +51,9 @@
 
                 <div>
                     <a type="button" class="btn btn-outline-primary btn-sm"
-                        href="/products/<%= productItem.product_id %>/edit">Modify</a>
+                        href="/products/<%= productItem._id %>/edit">Modify</a>
                     <a type="button" class="btn btn-outline-danger btn-sm"
-                        href="/products/<%= productItem.product_id %>/delete">Remove This Item</a>
+                        href="/products/<%= productItem._id %>/delete">Remove This Item</a>
                 </div>
             </div>
             <!-- /.card-text -->
