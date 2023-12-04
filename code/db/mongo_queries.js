@@ -36,13 +36,58 @@ async function updateProduct(id, product) {
     const database = await connectToDatabase();
     console.log("[DB] Updating product with id = ", id, " and product = ", product);
     const result = await database.collection('Product').replaceOne({ _id: new ObjectId(id) }, product);
+    console.log("[DB] Update result = ", result);
     return result;
 }
 
 async function deleteProduct(id) {
     console.log("[DB] Deleting product with id = ", id);
     const database = await connectToDatabase();
-    const result = await database.collection('Product').deleteOne({ _id: new ObjectId(id)});
+    const result = await database.collection('Product').deleteOne({ _id: new ObjectId(id) });
+    return result;
+}
+
+async function readRack(userId) {
+    const database = await connectToDatabase();
+    const userCollection = database.collection('User');
+    // query to get rack items for a given user
+    const result = await userCollection.aggregate([
+        {
+          $match:
+            /**
+             * query: The query in MQL.
+             */
+            {
+              "user.user_id": 2,
+            },
+        },
+        {
+          $unwind: "$rack",
+        },
+        {
+          $lookup: {
+            from: "Product",
+            localField: "rack.product_id",
+            foreignField: "product_id",
+            as: "products",
+          },
+        },
+        {
+          $unwind: "$products",
+        },
+        {
+          $project:
+            /**
+             * specifications: The fields to
+             *   include or exclude.
+             */
+            {
+              rack: 1,
+              products: 1,
+            },
+        },
+      ]).toArray();
+    console.log("[DB] Reading rack using userId", userId," result = ", result);
     return result;
 }
 
@@ -52,7 +97,6 @@ module.exports = {
     readAllProducts,
     readProduct,
     updateProduct,
-    deleteProduct
-
-    
+    deleteProduct,
+    readRack,
 };

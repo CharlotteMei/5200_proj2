@@ -3,13 +3,67 @@
 <!-- show all products -->
 <head>
   <title>SkinCare Rack App</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
+  <%- include('./partials/css.ejs') %>
 </head>
 
 <body>
   <h1>My Rack</h1>
   <p>See items on My Rack</p>
   <button onclick="window.location.href='/'"> Home!!</button>
+  <button onclick="window.location.href='/'"> Add Rack Item</button>
+
+  <% rackItems.forEach(function(productItem) { %>
+    <div class="col-4 mb-2">
+      <div class="card p-2">
+        <div class="card-title">
+          <label>Product ID: <output>
+              <%= productItem.product_id %>
+            </output></label>
+        </div>
+        <div class="card-text">
+          <div>
+            <label>Name: <output>
+                <%= productItem.product_name %>
+              </output>
+            </label>
+          </div>
+          <div>
+            <label>Type: <output>
+                <%= productItem.type %>
+              </output>
+            </label>
+          </div>
+          <div>
+            <label>Price ($): <output>
+                <%= productItem.price %>
+              </output>
+            </label>
+          </div>
+          <div>
+            <label>Size (g): <output>
+                <%= productItem.size_in_gram %>
+              </output>
+            </label>
+          </div>
+          <div>
+            <label>Purchased Date: <output>
+                <%= productItem.purchased_date %>
+              </output>
+            </label>
+          </div>
+          <a type="button" class="btn btn-outline-danger btn-sm"
+            href="/1/rack/<%= productItem.product_id %>/delete">Remove This Item</a>
+          <a type="button" class="btn btn-outline-danger btn-sm"
+            href="/1/rack/<%= productItem.product_id %>/edit">Edit</a>
+        </div>
+        <!-- /.card-text -->
+      </div>
+      <!-- /.card -->
+    </div>
+
+    <% }); %>
+
 </body>
 
 </html>

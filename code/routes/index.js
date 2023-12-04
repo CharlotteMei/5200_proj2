@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { readAllProducts, readProduct, createProduct, deleteProduct, updateProduct } = require('../db/mongo_queries.js');
+const { readAllProducts, readProduct, createProduct, deleteProduct, updateProduct, readRack } = require('../db/mongo_queries.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -49,8 +49,10 @@ router.get('/products/:id/delete', async function(req, res, next) {
 
 
 /* rack page. */
-router.get('/:userId/rack', function(req, res, next) {
-  res.render('rack', {userId: req.params.userId});
+router.get('/:userId/rack', async function(req, res, next) {
+  const userId = req.params.userId;
+  const rackItems = await readRack(userId);
+  res.render('rack', {rackItems});
 });
 
 /* rack add page. */
