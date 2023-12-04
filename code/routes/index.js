@@ -26,15 +26,16 @@ router.post('/products/add', async function(req, res, next) {
 });
 
 /* product edit page. */
-router.get('/products/:id/edit', function(req, res, next) {
+router.get('/products/:id/edit', async function(req, res, next) {
   console.log("Edit product with id = ", req.params.id);
-  productItem = readProduct(req.params.id);
-  res.render('product_edit');
+  const productItem = await readProduct(req.params.id);
+  console.log("Reading product, result =", productItem)
+  res.render('product_edit', {product: productItem});
 });
 
 router.post('/products/:id/edit', async function(req, res, next) {
-  const result = await updateProduct(req.body);
-  console.log("Edit product, result =", req.body);
+  const result = await updateProduct(req.params.id, req.body);
+  console.log("Edit product, result =", result);
   res.redirect('/products');
 });
 

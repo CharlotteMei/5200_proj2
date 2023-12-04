@@ -34,6 +34,7 @@ async function readProduct(id) {
 
 async function updateProduct(id, product) {
     const database = await connectToDatabase();
+    console.log("[DB] Updating product with id = ", id, " and product = ", product);
     const result = await database.collection('Product').replaceOne({ _id: new ObjectId(id) }, product);
     return result;
 }
