@@ -139,6 +139,35 @@ async function addRackItem(userId, newRackItem) {
     return result;
 }
 
+async function editRackItem(userId, productId, newRackItem) {
+    // productId is the _id field for the product
+    const database = await connectToDatabase();
+    const userCollection = database.collection('User');
+    // query to get rack items for a given user
+    const user = await findUser(userId);
+
+    if (user === null) {
+        console.log("[DB] User not found for userId = ", userId);
+        return null;
+    }
+
+    const result = await userCollection.updateOne(
+        {
+            "user.user_id": parseInt(userId),
+            "rack.product_id": new ObjectId(productId)
+        },
+        {
+            $set: {
+                "rack.$.purchased_date": newRackItem.purchased_date
+            }
+        }
+    );
+
+    console.log("[DB] Editing rack item for userId = ", userId, " productId = ", productId, " new rack item = ", newRackItem, " result = ", result)
+    return result;
+
+}
+
 
 module.exports = {
     createProduct,
@@ -147,5 +176,6 @@ module.exports = {
     updateProduct,
     deleteProduct,
     readRack,
-    addRackItem
+    addRackItem,
+    editRackItem,
 };
