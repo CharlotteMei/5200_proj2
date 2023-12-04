@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { readAllProducts, readProduct, createProduct, deleteProduct, updateProduct, readRack } = require('../db/mongo_queries.js');
+const { readAllProducts, readProduct, createProduct, deleteProduct, updateProduct, readRack, addRackItem } = require('../db/mongo_queries.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -56,6 +56,18 @@ router.get('/:userId/rack', async function(req, res, next) {
 });
 
 /* rack add page. */
+router.get('/:userId/rack/add', async function(req, res, next) {
+  const allProducts = await readAllProducts();
+  console.log("All products = ", allProducts.length);
+  res.render('rack_add', {userId: req.params.userId, allProducts: allProducts});
+});
+
+router.post('/:userId/rack/add', async function(req, res, next) {
+  const userId = req.params.userId;
+  const newRackItem = req.body
+  const result = await addRackItem(userId, newRackItem);
+  res.redirect('/'+userId+'/rack');
+});
 
 /* rack edit page. */
 
