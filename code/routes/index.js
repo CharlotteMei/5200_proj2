@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { readAllProducts, readProduct, createProduct, deleteProduct, updateProduct, readRack, addRackItem, editRackItem } = require('../db/mongo_queries.js');
+const { readAllProducts, readProduct, createProduct, deleteProduct, updateProduct, readRack, addRackItem, editRackItem, deleteRackItem } = require('../db/mongo_queries.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -85,7 +85,17 @@ router.post('/:userId/rack/:productId/edit', async function (req, res, next) {
 
   const result = await editRackItem(userId, productId, newRackItem);
   console.log("Edited product, result =", result);
-  
+  res.redirect('/'+userId+'/rack/');
+});
+
+/* rack delete. */
+router.get('/:userId/rack/:productId/delete', async function (req, res, next) {
+  const userId = req.params.userId;
+  const productId = req.params.productId;
+  console.log("Delete rack item with product _id = ", productId);
+
+  const result = await deleteRackItem(userId, productId);
+  console.log("Delete rack item, result =", result);
   res.redirect('/'+userId+'/rack/');
 });
 

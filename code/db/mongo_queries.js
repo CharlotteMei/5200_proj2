@@ -47,6 +47,7 @@ async function deleteProduct(id) {
     return result;
 }
 
+// Function to CRUD rack items
 async function readRack(userId) {
     const database = await connectToDatabase();
     const userCollection = database.collection('User');
@@ -168,6 +169,34 @@ async function editRackItem(userId, productId, newRackItem) {
 
 }
 
+async function deleteRackItem(userId, productId) {
+    // productId is the _id field for the product
+    const database = await connectToDatabase();
+    const userCollection = database.collection('User');
+    // query to get rack items for a given user
+    const user = await findUser(userId);
+
+    if (user === null) {
+        console.log("[DB] User not found for userId = ", userId);
+        return null;
+    }
+
+    const result = await userCollection.updateOne(
+        {
+            "user.user_id": parseInt(userId),
+        },
+        {
+            $pull: {
+                "rack": { "product_id": new ObjectId(productId) }
+            }
+        }
+    );
+
+    console.log("[DB] Deleting rack item for userId = ", userId, " productId = ", productId, " result = ", result)
+    return result;
+
+}
+
 
 module.exports = {
     createProduct,
@@ -178,4 +207,5 @@ module.exports = {
     readRack,
     addRackItem,
     editRackItem,
+    deleteRackItem
 };
