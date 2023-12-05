@@ -3,6 +3,9 @@
 ## assignment task1-5
 See the pdf document called "cs5200 project 2 doc"
 
+## assignment task 6 demo
+see video called DEMO
+
 ## fake data
 all data in the database are fake and were generated using https://www.mockaroo.com/schemas/new
 
